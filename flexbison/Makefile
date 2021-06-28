@@ -5,7 +5,7 @@ FLEX_SOURCE_CXX = lex.yy.c
 BISON_SOURCE_CXX = $(SOURCE).tab.c
 BISON_SOURCE_HXX = $(SOURCE).tab.h
 override TARGET = a.out
-LDFLAGS_COMMON = -std=c2x -lfl -Wno-implicit-function-declaration 
+LDFLAGS_COMMON = -std=c2x -lfl -lm -Wno-implicit-function-declaration 
 FLEX_SOURCE = $(SOURCE).lex
 BISON_SOURCE = $(SOURCE).y
 flex:
