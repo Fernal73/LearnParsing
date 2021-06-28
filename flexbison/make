@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+make SOURCE="$1"
