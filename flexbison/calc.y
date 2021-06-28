@@ -4,31 +4,36 @@
 %}
 /* declare tokens */
 %token NUMBER
-%token ADD SUB MUL DIV ABS
+%token ADD SUB MUL DIV ABS MOD OP CP
 %token EOL
 %%
-calclist: /* nothing matches at beginning of input */
- | calclist exp EOL { printf("= %d\n", $1); } 
- /* EOL is end of an expression */
+calclist:
+ | calclist exp EOL { printf("= %d\n", $2); } 
  ;
-exp: factor /* default $$ = $1 */
+exp: factor { $$ = $1; }
  | exp ADD factor { $$ = $1 + $3; }
  | exp SUB factor { $$ = $1 - $3; }
  ;
-factor: term /* default $$ = $1 */
+factor: term { $$ = $1; }
  | factor MUL term { $$ = $1 * $3; }
- | factor DIV term { $$ = $1 / $3; }
+ | factor DIV term { 
+ if ($3 == 0) {
+ yyerror("cannot be divided by zero"); exit(1);
+ } else
+ $$ = $1 / $3; 
+ }
+ | factor MOD term { $$ = $1 % $3; }
  ;
-term: NUMBER /* default $$ = $1 */
- | ABS term { $$ = $2 >= 0? $2 : - $2; }
-;
+term: NUMBER { $$ = $1; }
+ | ABS term ABS { $$ = $2 >= 0 ? $2 : -$2; }
+ | OP exp CP { $$ = $2; } 
+ ;
 %%
 int main(int argc, char **argv)
 {
- yyparse();
+ return yyparse();
 }
 int yyerror(char *s)
 {
- fprintf(stderr, "error: %s\n", s);
- return 0;
+ return fprintf(stderr, "error: %s\n", s);
 }
