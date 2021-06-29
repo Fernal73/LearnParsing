@@ -12,12 +12,12 @@ LDFLAGS_C++_COMMON = -std=c++2a -lm
 FLEX_SOURCE = $(SOURCE).lex
 BISON_SOURCE = $(SOURCE).y
 flex:
-	flex -v $(SOURCE)
+	flex -v -o $(FLEX_SOURCE_C) $(SOURCE)
 	$(CC) $(FLEX_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 flexcpp:
-	flex -v --c++ $(SOURCE)
+	flex -v --c++ -o $(FLEX_SOURCE_CXX) $(SOURCE)
 	$(CXX) $(FLEX_SOURCE_CXX) $(LDFLAGS_C++_COMMON) -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
@@ -28,4 +28,4 @@ bison:
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 clean:
-	rm -f $(TARGET) $(FLEX_SOURCE_CXX) $(BISON_SOURCE_CXX) $(BISON_SOURCE_HXX)
+	rm -f $(TARGET) $(FLEX_SOURCE_C) $(FLEX_SOURCE_CXX) $(BISON_SOURCE_CXX) $(BISON_SOURCE_HXX) $(BISON_SOURCE_C) $(BISON_SOURCE_H)
