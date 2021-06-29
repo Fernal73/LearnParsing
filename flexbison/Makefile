@@ -10,7 +10,7 @@ BISON_SOURCE_CXX = $(SOURCE).tab.cc
 BISON_SOURCE_HXX = $(SOURCE).tab.hh
 override TARGET = a.out
 LDFLAGS_COMMON = -std=c2x -lfl -lm -Wno-implicit-function-declaration 
-LDFLAGS_C++_COMMON = -std=c++2a -lm 
+LDFLAGS_C++_COMMON = -std=c++2a 
 FLEX_SOURCE = $(SOURCE).lex
 BISON_SOURCE = $(SOURCE).y
 flex:
@@ -33,6 +33,12 @@ bisoncpp:
 	bison -L c++ -d $(BISON_SOURCE)
 	flex --c++ -o $(FLEX_SOURCE_CXX) $(FLEX_SOURCE)
 	$(CXX) $(FLEX_SOURCE_CXX) $(BISON_SOURCE_CXX) $(LDFLAGS_C++_COMMON) -o $(TARGET)
+	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
+	./$(TARGET)
+bisonmix:
+	bison -L c++ -d $(BISON_SOURCE)
+	flex -o $(FLEX_SOURCE_C) $(FLEX_SOURCE)
+	$(CXX) $(FLEX_SOURCE_C) $(BISON_SOURCE_CXX) $(LDFLAGS_C++_COMMON) -v -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 clean:

@@ -1,17 +1,26 @@
 /* simplest version of calculator */
 %require "3.2"
 %language "c++"
-//%define api.value.type variant
-//%define api.token.constructor
 %{
+#include <iostream>
 #include <cmath>
+#include <string>
+int error(std::string& s)
+{
 using namespace std;
+cerr << "error: " <<  s << endl;
+return 0;
+}
 %}
 
 /* declare type possibilities of symbols */
 %union {
   double value;
 }
+%{
+yy::parser::semantic_type yylval;
+extern int yylex(yy::parser::semantic_type* yylval);
+%}
 /* declare tokens */
 %token NUMBER
 %token ADD SUB MUL DIV ABS MOD OP CP
@@ -23,7 +32,9 @@ using namespace std;
 
 %%
 calclist:
- | calclist exp EOL { cout << "= " << $2 << endl; } 
+ | calclist exp EOL { 
+using namespace std;
+cout << "= " << $2 << endl; } 
  ;
 exp: factor { $$ = $1; }
  | exp ADD factor { $$ = $1 + $3; }
@@ -33,7 +44,7 @@ factor: term { $$ = $1; }
  | factor MUL term { $$ = $1 * $3; }
  | factor DIV term { 
  if ($3 == 0) {
- yyerror("cannot be divided by zero"); exit(1);
+ error("cannot be divided by zero"); exit(1);
  } else
  $$ = $1 / $3; 
  }
@@ -46,11 +57,7 @@ term: NUMBER { $$ = $1; }
 %%
 int main(int argc, char **argv)
 {
-  yy::parser parse;
-  return parse ();
-}
-int yyerror(char *s)
-{
-using namespace std;
-cerr << "error: " <<  s << endl;
+ // yy::parser parse;
+ // return parse.parse();
+  return 0;
 }
