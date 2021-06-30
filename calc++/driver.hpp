@@ -4,6 +4,12 @@
 #include <map>
 #include <string>
 
+// Give Flex the prototype of yylex we want ...
+# define YY_DECL \
+  yy::parser::symbol_type yylex (driver& drv)
+// ... and declare it for the parser's sake.
+YY_DECL;
+
 class driver {
 public:
   driver();

@@ -1,26 +1,34 @@
 // -*- C++ -*-
 %skeleton "lalr1.cc" 
 %require "3.7.6"
+
 %defines
+
 %define api.token.raw
 %define api.token.constructor
 %define api.value.type variant
 %define parse.assert
+
 %code requires {
-# include <string>
-  class driver;
+#include <string>
+class driver;
 }
+
 // The parsing context.
 %param { driver& drv }
+
 %locations
 %define api.location.file "location.hpp"
 %code requires {#include "location.hpp"}
+
 %define parse.trace
 %define parse.error detailed
 %define parse.lac full
+
 %code {
-# include "driver.hpp"
+#include "driver.hpp"
 }
+
 %define api.token.prefix {TOK_}
 %token
   ASSIGN  ":="
@@ -31,7 +39,11 @@
   LPAREN  "("
   RPAREN  ")"
 ;
-%printer { fprintf(yyo,"&%p", $$); } <*>;
+%token <std::string> IDENTIFIER "identifier"
+%token <int> NUMBER "number"
+%nterm <int> exp
+%printer { yyo << $$; } <*>;
+
 %%
 %start unit;
 unit: assignments exp  { drv.result = $2; };

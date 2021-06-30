@@ -8,23 +8,17 @@ driver::driver()
   variables["two"] = 2;
 }
 
-void
-driver::scan_begin ()
+int
+driver::parse (const std::string &f)
 {
-  yy_flex_debug = trace_scanning;
-  if (file.empty () || file == "-")
-    yyin = stdin;
-  else if (!(yyin = fopen (file.c_str (), "r")))
-    {
-      std::cerr << "cannot open " << file << ": " << strerror (errno) << '\n';
-      exit (EXIT_FAILURE);
-    }
-}
-
-void
-driver::scan_end ()
-{
-  fclose (yyin);
+  file = f;
+  location.initialize (&file);
+  scan_begin ();
+  yy::parser parse (*this);
+  parse.set_debug_level (trace_parsing);
+  int res = parse ();
+  scan_end ();
+  return res;
 }
 
 driver::~driver()

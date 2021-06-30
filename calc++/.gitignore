@@ -1,0 +1,9 @@
+*.o
+*.xml
+*.gv
+location.hpp
+parser.cpp
+parser.hpp
+scanner.cpp
+calc
+*.output
