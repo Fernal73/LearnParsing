@@ -57,7 +57,6 @@ term: NUMBER { $$ = $1; }
 %%
 int main(int argc, char **argv)
 {
- // yy::parser parse;
- // return parse.parse();
-  return 0;
+yy::parser parse;
+ return parse.parse();
 }

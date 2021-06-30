@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-make SOURCE="$1" clean
+make SOURCE="$1" clean -B
