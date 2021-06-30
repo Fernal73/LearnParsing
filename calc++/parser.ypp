@@ -13,6 +13,8 @@
 // The parsing context.
 %param { driver& drv }
 %locations
+%define api.location.file "location.hpp"
+%code requires {#include "location.hpp"}
 %define parse.trace
 %define parse.error detailed
 %define parse.lac full
