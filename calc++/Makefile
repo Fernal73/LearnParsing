@@ -29,6 +29,9 @@ scanner.o: parser.hpp
 run: $(BASE)
 	@echo "Type arithmetic expressions.  Quit with ctrl-d."
 	./$< calc.txt
+	./$< literal.txt
+	./$< add.txt
+	./$< input.txt
 
 html: parser.html
 %.html: %.xml
