@@ -52,7 +52,12 @@ expr: expr '-' term { $$ = $1 - $3; };
 expr: term;
 
 term: term '*' fact { $$ = $1 * $3; };
-term: term '/' fact { $$ = $1 / $3; };
+term: term '/' fact {
+    if ($3 == 0) {
+    yyerror("Division by zero");
+    YYABORT;
+    }
+    $$ = $1 / $3; };
 term: term '%' fact { $$ = fmod($1,$3); };
 term: '-' fact  %prec NEG { $$ = -$2;};
 term: fact;
