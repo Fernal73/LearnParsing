@@ -52,4 +52,4 @@ bisonmix:
 clean:
 	rm -f ./$(TARGET) ./$(FLEX_SOURCE_C) ./$(FLEX_SOURCE_CXX) ./$(BISON_SOURCE_CXX) \
 		./$(BISON_SOURCE_HXX) ./$(BISON_SOURCE_C) ./$(BISON_SOURCE_H) \
-		./$(BISON_O) ./$(LEXER_O)
+		./$(BISON_O) ./$(LEXER_O) ./$(SOURCE).output

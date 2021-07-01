@@ -83,11 +83,9 @@ fact: fact '^' fact { $$ = pow($1,$3);};
 fact: '(' expr ')' { $$ = $2; };
 %%
 
-int
-yylex ()
+int yylex ()
 {
   int c;
-
   /* Ignore white space, get first nonwhite character.  */
   while ((c = getchar ()) == ' ' || c == '\t') {
     ++yylloc.last_column;
@@ -122,18 +120,18 @@ yylex ()
 }
 
 /* Called by yyparse on error.  */
-void
-yyerror (char const *s)
+void yyerror (char const *s)
 {
   fprintf (stderr, "%s\n", s);
 }
 
-int
-main (int argc, char const* argv[])
+int main (int argc, char const* argv[])
 {
   /* Enable parse traces on option -p.  */
   for (int i = 1; i < argc; ++i)
     if (!strcmp (argv[i], "-p"))
       yydebug = 1;
+  yylloc.first_line = yylloc.last_line = 1;
+  yylloc.first_column = yylloc.last_column = 0;
   return yyparse ();
 }
