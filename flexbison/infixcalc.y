@@ -53,11 +53,27 @@ expr: term;
 
 term: term '*' fact { $$ = $1 * $3; };
 term: term '/' fact {
-    if ($3 == 0) {
-    yyerror("Division by zero");
-    YYABORT;
-    }
-    $$ = $1 / $3; };
+  if ($3 && $1)
+    $$ = $1 / $3;
+  else
+    {
+      $$ = 1;
+     if ($1) {
+      fprintf (stderr, "%d - %d: division by zero.\n",
+      @3.first_line,
+      @3.last_line);
+      yyerror("Division by zero");
+      YYABORT;
+      }
+      else {
+      fprintf (stderr, "%d - %d : zero division by zero is undefined.\n",
+      @3.first_line,
+      @3.last_line);
+      yyerror("Zero Division by zero is undefined.");
+      YYABORT;
+      }
+      }
+};
 term: term '%' fact { $$ = fmod($1,$3); };
 term: '-' fact  %prec NEG { $$ = -$2;};
 term: fact;
@@ -73,21 +89,34 @@ yylex ()
   int c;
 
   /* Ignore white space, get first nonwhite character.  */
-  while ((c = getchar ()) == ' ' || c == '\t')
+  while ((c = getchar ()) == ' ' || c == '\t') {
+    ++yylloc.last_column;
     continue;
+  }
 
-  if (c == EOF)
-    return 0;
-
+  /* Step. */
+  yylloc.first_line = yylloc.last_line;
+  yylloc.first_column = yylloc.last_column;
+ 
   /* Char starts a number => parse the number.         */
   if (c == '.' || isdigit (c))
     {
       ungetc (c, stdin);
-      if (scanf ("%lf", &yylval.NUM) != 1)
+    if (scanf ("%lf", &yylval.NUM) != 1)
         abort ();
-      return NUM;
-    }
+    return NUM;
+  }
 
+  if (c == EOF)
+    return YYEOF;
+    /* Return a single char, and update location. */
+  if (c == '\n')
+    {
+      ++yylloc.last_line;
+      yylloc.last_column = 0;
+    }
+  else
+    ++yylloc.last_column;
   /* Any other character is a token by itself.        */
   return c;
 }
