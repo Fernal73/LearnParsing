@@ -27,8 +27,12 @@ flexcpp:
 	./$(TARGET)
 bison:
 	bison -d $(BISON_SOURCE)
+ifneq (,$(wildcard ./$(FLEX_SOURCE)))
 	flex -o $(FLEX_SOURCE_C) $(FLEX_SOURCE)
 	$(CC) $(FLEX_SOURCE_C) $(BISON_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
+else
+	$(CC) $(BISON_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
+endif
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 bisoncpp:
