@@ -1,0 +1,4 @@
+three := 3
+seven := one + two * three
+four9 := seven * seven
+four9

@@ -20,6 +20,7 @@ all: $(BASE)
 
 $(BASE): $(BASE).o driver.o parser.o scanner.o
 	$(CXX) -o $@ $^
+	termux-elf-cleaner $@
 
 $(BASE).o: parser.hpp
 parser.o: parser.hpp
@@ -27,7 +28,7 @@ scanner.o: parser.hpp
 
 run: $(BASE)
 	@echo "Type arithmetic expressions.  Quit with ctrl-d."
-	./$< -
+	./$< calc.txt
 
 html: parser.html
 %.html: %.xml
