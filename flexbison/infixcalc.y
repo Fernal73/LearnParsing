@@ -30,8 +30,9 @@
 /* Generate the parser description file (calc.output).  */
 %verbose
 
+%define parse.assert true
 /* Nice error messages with details. */
-%define parse.error verbose
+%define parse.error detailed
 
 /* Enable run-time traces (yydebug).  */
 %define parse.trace

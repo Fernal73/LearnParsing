@@ -26,7 +26,7 @@ flexcpp:
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 bison:
-	bison -d $(BISON_SOURCE)
+	bison -d -v $(BISON_SOURCE)
 ifneq (,$(wildcard ./$(FLEX_SOURCE)))
 	flex -o $(FLEX_SOURCE_C) $(FLEX_SOURCE)
 	$(CC) $(FLEX_SOURCE_C) $(BISON_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
@@ -36,17 +36,11 @@ endif
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 bisoncpp:
-	bison -L c++ -d $(BISON_SOURCE)
+	bison -v -L c++ -d $(BISON_SOURCE)
 	flex --c++ -o $(FLEX_SOURCE_CXX) $(FLEX_SOURCE)
 	$(CXX) -c -o $(BISON_O) $(LDFLAGS_C++_COMMON)  $(BISON_SOURCE_CXX) 
 	$(CXX) -c -o $(LEXER_O) $(LDFLAGS_C++_COMMON)  $(FLEX_SOURCE_CXX)  
 	$(CXX) $(LDFLAGS_C++_COMMON) -o $(TARGET) $(BISON_O) $(LEXER_O) 
-	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
-	./$(TARGET)
-bisonmix:
-	bison -L c++ -d $(BISON_SOURCE)
-	flex -o $(FLEX_SOURCE_C) $(FLEX_SOURCE)
-	$(CXX) $(FLEX_SOURCE_C) $(BISON_SOURCE_CXX) $(LDFLAGS_C++_COMMON) -v -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 clean:
