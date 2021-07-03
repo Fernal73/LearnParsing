@@ -80,6 +80,7 @@ term: term '/' fact {
 };
 term: term '%' fact { $$ = fmod($1,$3); };
 term: '-' fact  %prec NEG { $$ = -$2;};
+term: '+' fact { $$ = $2;};
 term: fact;
 
 fact: "number";
