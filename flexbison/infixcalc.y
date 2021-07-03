@@ -19,7 +19,7 @@
 /* Generate YYSTYPE from the types used in %token and %type.  */
 %define api.value.type union
 %token <double> NUM "number"
-%type  <double> expr term fact
+%nterm  <double> expr term fact
 %left '-' '+'
 %left '*' '/' '%'
 /* negation--unary minus */
@@ -46,7 +46,8 @@ input: %empty;
 input: input line;
 
 line: '\n';
-line: expr '\n'  { printf ("%.10g\n", $1); };
+line: expr '\n'  {
+    printf ("%.10g\n", $1);} 
 line: error '\n' { yyerrok; };
 
 expr: expr '+' term { $$ = $1 + $3; };
@@ -59,20 +60,20 @@ term: term '/' fact {
     $$ = $1 / $3;
   else
     {
-      $$ = 1;
+     $1 = 1;
      if ($1) {
       fprintf (stderr, "%d:%d - %d:%d:- division by zero.\n",
       @3.first_line,@3.first_column,
       @3.last_line,@3.last_column);
       yyerror("Division by zero");
-      YYABORT;
+     YYABORT;
       }
       else {
       fprintf (stderr, "%d:%d - %d:%d:- zero division by zero is undefined.\n",
       @1.first_line,@1.first_column,
       @3.last_line,@3.last_column);
       yyerror("Zero Division by zero is undefined.");
-      YYABORT;
+     YYABORT;
       }
       }
 };
