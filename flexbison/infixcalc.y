@@ -20,7 +20,8 @@
 %define api.value.type union
 %token <double> NUM "number"
 %type  <double> expr term fact
-%left '-' '+' '*' '/' '%'
+%left '-' '+'
+%left '*' '/' '%'
 /* negation--unary minus */
 %precedence NEG   
 /* exponentiation */
