@@ -20,8 +20,7 @@
 %define api.value.type union
 %token <double> NUM "number"
 %type  <double> expr term fact
-%left '-' '+'
-%left '*' '/' '%'
+%left '-' '+' '*' '/' '%'
 /* negation--unary minus */
 %precedence NEG   
 /* exponentiation */
@@ -31,10 +30,12 @@
 %verbose
 
 /* Nice error messages with details. */
-%define parse.error detailed
+%define parse.error verbose
 
 /* Enable run-time traces (yydebug).  */
 %define parse.trace
+
+%define parse.lac full
 
 /* Formatting semantic values in debug traces.  */
 %printer { fprintf (yyo, "%g", $$); } <double>;
