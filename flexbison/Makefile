@@ -26,7 +26,7 @@ flexcpp:
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 	./$(TARGET)
 bison:
-	bison -d -v $(BISON_SOURCE)
+	bison -d -v -Wcounterexamples $(BISON_SOURCE)
 ifneq (,$(wildcard ./$(FLEX_SOURCE)))
 	flex -o $(FLEX_SOURCE_C) $(FLEX_SOURCE)
 	$(CC) $(FLEX_SOURCE_C) $(BISON_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
