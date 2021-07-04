@@ -86,7 +86,11 @@ struct init const funs[] =
   { "acos",  acos  },
   { "exp",  exp  },
   { "ln",   log  }
+<<<<<<< HEAD
   { "log10",   log10  },
+=======
+  { "log10",   log10  }
+>>>>>>> main
   { "sin",  sin  },
   { "sinh",  sinh  },
   { "asin",  asin  },
