@@ -30,4 +30,3 @@ symrec *putsym (char const *name, int sym_type);
 symrec *getsym (char const *name);
 
 #endif /* end of include guard MFCALC_H */
-

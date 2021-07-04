@@ -57,10 +57,16 @@ exp:
 /* End of grammar. */
 %%
 
+struct constinit
+{
+  char *name;
+  double var;
+};
+
 struct init
 {
-  char const *name;
-  func_t *fun;
+  char *name;
+  double (*fun)();
 };
 
 struct init const funs[] =
@@ -80,6 +86,12 @@ struct init const funs[] =
   { 0, 0 },
 };
 
+struct constinit const consts [] = 
+{ 
+{"pi",  M_PI},
+{"e", M_E},
+};
+
 /* The symbol table: a chain of 'struct symrec'. */
 symrec *sym_table;
 
@@ -91,6 +103,11 @@ init_table (void)
     {
       symrec *ptr = putsym (funs[i].name, FUN);
       ptr->value.fun = funs[i].fun;
+    }
+  for (int i = 0; consts[i].name; i++)
+    {
+      symrec *ptr = putsym (consts[i].name, VAR);
+      ptr->value.var = consts[i].var;
     }
 }
 
