@@ -85,6 +85,7 @@ term: fact;
 
 fact: "number";
 fact: fact '^' fact { $$ = pow($1,$3);}; 
+fact: '|' expr '|' { $$ = fabs($2); };
 fact: '(' expr ')' { $$ = $2; };
 %%
 
