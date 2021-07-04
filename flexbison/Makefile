@@ -1,4 +1,4 @@
-SHELL := /bin/bash
+SHELL := /usr/bin/env bash
 CC = gcc
 CXX = g++
 TERMUX_CLEANER = termux-elf-cleaner
@@ -19,12 +19,12 @@ flex:
 	flex -o $(FLEX_SOURCE_C) $(SOURCE)
 	$(CC) $(FLEX_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
-	./$(TARGET)
+	./$(TARGET) < $(SOURCE).txt
 flexcpp:
 	flex --c++ -o $(FLEX_SOURCE_CXX) $(SOURCE)
 	$(CXX) $(FLEX_SOURCE_CXX) $(LDFLAGS_C++_COMMON) -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
-	./$(TARGET)
+	./$(TARGET) < $(SOURCE).txt
 bison:
 	bison -d -v -Wcounterexamples $(BISON_SOURCE)
 ifneq (,$(wildcard ./$(FLEX_SOURCE)))
@@ -34,7 +34,7 @@ else
 	$(CC) $(BISON_SOURCE_C) $(LDFLAGS_COMMON) -o $(TARGET)
 endif
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
-	./$(TARGET)
+	./$(TARGET) < $(SOURCE).txt
 bisoncpp:
 	bison -v -L c++ -d $(BISON_SOURCE)
 	flex --c++ -o $(FLEX_SOURCE_CXX) $(FLEX_SOURCE)
@@ -42,7 +42,7 @@ bisoncpp:
 	$(CXX) -c -o $(LEXER_O) $(LDFLAGS_C++_COMMON)  $(FLEX_SOURCE_CXX)  
 	$(CXX) $(LDFLAGS_C++_COMMON) -o $(TARGET) $(BISON_O) $(LEXER_O) 
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
-	./$(TARGET)
+	./$(TARGET) < $(SOURCE).txt
 clean:
 	rm -f ./$(TARGET) ./$(FLEX_SOURCE_C) ./$(FLEX_SOURCE_CXX) ./$(BISON_SOURCE_CXX) \
 		./$(BISON_SOURCE_HXX) ./$(BISON_SOURCE_C) ./$(BISON_SOURCE_H) \
