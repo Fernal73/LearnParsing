@@ -28,7 +28,7 @@
 
 %define api.value.type union /* Generate YYSTYPE from these types: */
 %token <double>  NUM     /* Double precision number. */
-%token <symrec*> VAR FUN /* Symbol table pointer: variable/function. */
+%token <symrec*> VAR FUN CONST /* Symbol table pointer: variable/function. */
 %nterm <double>  exp
 
 %precedence '='
@@ -56,6 +56,7 @@ line: error '\n' { yyerrok;};
 
 exp: NUM
 exp: VAR                { $$ = $1->value.var;};
+exp: CONST              { $$ = $1->value.var;};
 exp: VAR '=' exp        { $$ = $3; $1->value.var = $3;};
 exp: FUN '(' exp ')'    { $$ = $1->value.fun ($3);};
 exp: exp '+' exp        { $$ = $1 + $3;};
@@ -78,6 +79,12 @@ struct init
   func_t *fun;
 };
 
+struct initvar
+{
+  char const *name;
+  double var;
+};
+
 struct init const funs[] =
 {
   { "atan", atan },
@@ -98,6 +105,13 @@ struct init const funs[] =
   { 0, 0 },
 };
 
+struct initvar const vars[] =
+{
+  { "PI", M_PI },
+  { "E",  M_E  },
+  { 0, 0 },
+};
+
 /* The symbol table: a chain of 'struct symrec'. */
 symrec *sym_table;
 
@@ -109,6 +123,11 @@ init_table (void)
     {
       symrec *ptr = putsym (funs[i].name, FUN);
       ptr->value.fun = funs[i].fun;
+    }
+  for (int i = 0; vars[i].name; i++)
+    {
+      symrec *ptr = putsym (vars[i].name, VAR);
+      ptr->value.var = vars[i].var;
     }
 }
 
