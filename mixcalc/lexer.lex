@@ -4,7 +4,7 @@
 using namespace calc;
 %}
 
-%option reentrant interactive noyywrap noyylineno nodefault outfile="Scanner.cpp" header="Scanner.hpp"
+%option reentrant interactive noyywrap noyylineno nodefault debug outfile="Scanner.cpp" header="Scanner.hpp"
 
 dseq            ([[:digit:]]+)
 dseq_opt        ({dseq}?)
@@ -44,6 +44,7 @@ int main() {
     yyscan_t scanner;
     yylex_init(&scanner);
     calc::Parser parser{ scanner };
+    // parser.set_debug_level(1);  
     cout.precision(10);
     parser.parse();
     yylex_destroy(scanner);
