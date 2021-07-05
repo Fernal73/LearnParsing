@@ -1,6 +1,6 @@
 # This Makefile is designed to be simple and readable.  It does not
 # aim at portability.  It requires GNU Make.
-
+SHELL := /usr/bin/env bash
 BASE = calc
 BISON = bison
 CXX = g++
@@ -20,7 +20,7 @@ all: $(BASE)
 
 $(BASE): $(BASE).o driver.o parser.o scanner.o
 	$(CXX) -o $@ $^
-	termux-elf-cleaner $@
+	termux-elf-cleaner $@ &> /dev/null
 
 $(BASE).o: parser.hpp
 parser.o: parser.hpp
