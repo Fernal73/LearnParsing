@@ -31,11 +31,12 @@
 %token <symrec*> VAR FUN CONST /* Symbol table pointer: variable/function. */
 %nterm <double>  exp
 
-%precedence '='
+/*%precedence '='*/
 %left '-' '+'
 %left '*' '/' '%' '|'
 %precedence NEG /* negation--unary minus */
 %right '^'      /* exponentiation */
+%right '='      /* equality */
 /* Generate the parser description file. */
 %verbose
 /* Enable run-time traces (yydebug). */
