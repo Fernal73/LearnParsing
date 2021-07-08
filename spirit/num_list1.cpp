@@ -65,7 +65,7 @@ int main() {
     if (client::parse_numbers(str.begin(), str.end())) {
       std::cout << "-------------------------\n";
       std::cout << "Parsing succeeded\n";
-      std::cout << str << " Parses OK: " << std::endl;
+      std::cout << str << std::endl << " Parses OK: " << std::endl;
     } else {
       std::cout << "-------------------------\n";
       std::cout << "Parsing failed\n";
