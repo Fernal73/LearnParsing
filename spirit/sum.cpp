@@ -61,33 +61,33 @@ bool adder(Iterator first, Iterator last, double &n) {
 //  Main program
 ////////////////////////////////////////////////////////////////////////////
 int main() {
-  std::cout << "/////////////////////////////////////////////////////////\n\n";
-  std::cout << "\t\tA parser for summing a list of numbers...\n\n";
-  std::cout << "/////////////////////////////////////////////////////////\n\n";
+  using namespace std;
+  cout << "/////////////////////////////////////////////////////////\n\n";
+  cout << "\t\tA parser for summing a list of numbers...\n\n";
+  cout << "/////////////////////////////////////////////////////////\n\n";
 
-  std::cout << "Give me a comma separated list of numbers.\n";
-  std::cout << "The numbers are added using Phoenix.\n";
-  std::cout << "Type [q or Q] to quit\n\n";
+  cout << "Give me a comma separated list of numbers.\n";
+  cout << "The numbers are added using Phoenix.\n";
+  cout << "Type [q or Q] to quit\n\n";
 
-  std::string str;
-  while (getline(std::cin, str)) {
+  string str;
+  while (getline(cin, str)) {
     if (str.empty() || str[0] == 'q' || str[0] == 'Q')
       break;
 
     double n;
     if (client::adder(str.begin(), str.end(), n)) {
-      std::cout << "-------------------------\n";
-      std::cout << "Parsing succeeded\n";
-      std::cout << str << " Parses OK: " << std::endl;
-
-      std::cout << "sum = " << n;
-      std::cout << "\n-------------------------\n";
+      cout << "-------------------------\n";
+      cout << "Parsing succeeded\n";
+      cout << str << " Parses OK: " << endl;
+      cout << "sum = " << n;
+      cout << "\n-------------------------\n";
     } else {
-      std::cout << "-------------------------\n";
-      std::cout << "Parsing failed\n";
-      std::cout << "-------------------------\n";
+      cout << "-------------------------\n";
+      cout << "Parsing failed\n";
+      cout << "-------------------------\n";
     }
   }
-  std::cout << "Bye... :-) \n\n";
+  cout << "Bye... :-) \n\n";
   return 0;
 }
