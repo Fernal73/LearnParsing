@@ -28,6 +28,9 @@
 #include <string>
 #include <vector>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-shift-op-parentheses"
+
 namespace client
 {
     namespace fusion = boost::fusion;
@@ -257,3 +260,5 @@ int main(int argc, char **argv)
         return 1;
     }
 }
+
+#pragma GCC diagnostic pop
